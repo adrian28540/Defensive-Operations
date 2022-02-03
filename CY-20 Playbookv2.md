@@ -1,7 +1,7 @@
 # PLAYBOOK CYBER YANKEE 20-1
 ## Comms Checks
 ````
-apt-get update
+apt-get update && apt-get upgrade
  
 Browse using FireFox
 - http://10.0.0.1/tenants/cy20/content/red
