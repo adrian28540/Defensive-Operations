@@ -1,0 +1,1 @@
+﻿Get-ADComputer -Filter 'name -like "*wildcard*"' | Export-Csv .\name1.csv -NoTypeInformation
