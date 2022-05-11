@@ -1,0 +1,46 @@
+IT Range RFIs
+
+1.	Add Wireshark to HALE-2 DC.
+
+2.	Please provide SSH keys pre-configured on Linux hosts.
+
+3.	What is the default configuration of Windows Defender and Firewall across all hosts in the IT environment?
+
+4.	Can we admin DNS/control DNS names? What is the process for this?
+
+a.	Need knowledge of the whitespace DNS operations/any domains we can become a subdomain of to facilitate how CS DNS beacon would work on the internet. Secondary solution would be to add our team servers ip as a conditional forwarded at the top of the list assuming this does not break DNS. After further testing our beacons work if they are delegated domains within the whitespace DNS structure.
+
+5.	 Please enable NETLOGON as default policy for all the domain controllers
+a.	https://support.microsoft.com/en-us/topic/how-to-manage-the-changes-in-netlogon-secure-channel-connections-associated-with-cve-2020-1472-f7e8cc17-0309-1d6a-304e-5ba73cd1a11e
+
+6.  What blue team tools are being utilized?
+
+7.  Can range add new modules for tools?
+
+8.  What does the white noise look like to make sure our tools are hiding in the noise (e.g. IP space, ports, type of traffic)
+
+9.  Is there any white noise for social engineering.
+
+Muscatatuck OT Range RFIs
+
+1.	Request Windows Defender/Firewall be turned off on all OT devices
+
+2.	Please ensure user sim is functioning
+
+3.	Why are there no open ports on the OT network?
+
+4.	Can OT devices in the OT environment be scanned with NMAP without risk of bringing them down?
+
+5.	What will the OT exploit return (e.g. reverse shell)?
+
+6.	What type of Operating Systems/versions/builds are the OT systems built on?
+
+7.	Is there a firewall between the attacking system and OT network? Are the OT systems NAT-ed?
+
+8.	What is the ip scheme/subnets in relation to the attacking system?
+
+9. Obtain exploit scripts that will be utilized
+
+10. Can we modify the scripts to obtain different effects?
+
+11. Is the forensic image that they are being cued to pull from the SCADA systems?

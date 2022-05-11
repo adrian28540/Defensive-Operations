@@ -1,0 +1,53 @@
+On Thu, Jun 10, 2021 at 7:01 PM Cliff Campbell <
+cliffc@campbellconsultingindy.com> wrote:
+
+> James,
+>
+> Attached is a zip of the python scripts. Inside the zip there are three
+> folders, each set up to run against the three PLCs. The IP addresses are as
+> follows:
+>
+>    1. 172.30.10.1 is the main PLC for the actual Water Treatment Plant. I
+>    have VPN access to this PLC. I will have to get you the IP of the HMI on
+>    Monday as I didn't remember to fetch it today.
+>    2. 172.30.10.11 is the first simulated water plant PLC. Its HMI has a
+>    host IP of 172.30.10.121 and the VM with the HMI application is
+>    172.30.10.124
+>    3. 172.30.10.12 is the second simulated water plant PLC. Its HMI has a
+>    host IP of 172.30.10.110 and the VM with the HMI application is
+>    172.30.10.115
+>
+> You need to run the python scripts from their respective folders since
+> they import from the program eip.py, which has the appropriate IP address
+> for the PLC being attacked. All the scripts are written in Python version
+> 2.7 and will not run in a Python 3.x environment. If you need it, I have a
+> VM with 2.7 loaded I can get to you, just let me know. The programs are
+> pretty self-explanatory by the names. We can discuss this tomorrow (Friday)
+> as well as try a couple of the scripts against 172.30.10.1. All three PLCs
+> (and their associated HMI's) are on the network now. The first test will be
+> to ping each of the PLCs to make sure you have connectivity then we can try
+> running the "RA_Get_Controller_Tags.py script which should update the file
+> "TagList", located in the same directory. You can run the scripts from the
+> folder by clicking on the file or through the command prompt, but you need
+> to be in the directory the program is located in. I am available all day
+> tomorrow to discuss and try these out with you. Let me know how you would
+> like to proceed. I don't know if anyone will be on-site tomorrow, but I
+> have VPN access to the live water treatment plant. If you would like me to
+> discuss with your team the structure of the program, I can do that as well.
+> My cell number is in my signature line. Good luck and good hunting, see you
+> in the game. Talk soon!
+>
+> Very Respectfully,
+>
+>
+>
+> Cliff Campbell
+>
+> President
+>
+> Campbell Consulting, LLC
+>
+> cliffc@campbellconsultingindy.com
+>
+> (317) 910-5518
+>

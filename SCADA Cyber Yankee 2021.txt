@@ -1,0 +1,46 @@
+SCADA Cyber Yankee 2021.txt
+
+Distributed control system - DCS - contained into one plant
+SCADA - Supervisory COntrol and Data aqcuisitions - for remote operations on pipelines, water systems, upstream gas/liquid operations
+Programmable Logic Controller - bases systems for smaller plants and facilities
+RTU - Remote Terminal Unit - like PLCs
+
+Unexpected comms to ICS or OT can cripple it
+Problem with SCADA is that the systems are usually only hardened to a specific extent and then barely updated/patched.
+
+Programming PLCs
+	OG design to replace massive wiring closets for legacy systems
+
+Water Systems
+Very little in regards to CYberSec
+EPA And local level of authority
+First CyberSec regulations was passed in 2018.
+System are going to be wide spread
+Critical dependence on electrical
+
+Electric
+	Regulated by NERC North American Electric Reliability Corp
+	BES - Bulk Electric System
+
+Critical Mission Operations:
+	Maintain operations - black start is rough
+
+
+SCADA in PCTE
+Easy to rebuild and restart
+First gen system, designed to be logical
+	no values of amperages and volts
+	On and off 
+	ModBus of TCP
+Three different components
+HMI, Historian, and ICS Proxys
+
+Windows Program - HMI - shows ICS for each orange team
+Green is good, red is off
+
+ICS components proxy
+	currently windows - TCP 502 
+
+Historian - offlimits for range
+ModBus protocol is controlling devices
+

@@ -1,0 +1,75 @@
+Configs for the Red Edge Router
+
+set protocols static route 45.42.144.0/24 next-hop 172.30.0.2
+set protocols static route 67.161.115.0/24 next-hop 172.30.0.2
+
+
+
+
+
+
+Configs for the Red Core Router
+
+set nat destination rule 11 destination address 45.42.144.0/27
+set nat destination rule 11 inbound-interface eth1
+set nat destination rule 11 translation address 172.30.13.18
+
+set nat destination rule 12 destination address 45.42.144.32/27
+set nat destination rule 12 inbound-interface eth1
+set nat destination rule 12 translation address 172.30.13.24
+
+set nat destination rule 13 destination address 45.42.144.64/27
+set nat destination rule 13 inbound-interface eth1
+set nat destination rule 13 translation address 172.30.13.30
+
+set nat destination rule 14 destination address 45.42.144.96/27
+set nat destination rule 14 inbound-interface eth1
+set nat destination rule 14 translation address 172.30.13.36
+
+set nat destination rule 15 destination address 45.42.144.128/27
+set nat destination rule 15 inbound-interface eth1
+set nat destination rule 15 translation address 172.30.13.18
+
+set nat destination rule 16 destination address 45.42.144.160/27
+set nat destination rule 16 inbound-interface eth1
+set nat destination rule 16 translation address 172.30.13.24
+
+set nat destination rule 17 destination address 45.42.144.192/27
+set nat destination rule 17 inbound-interface eth1
+set nat destination rule 17 translation address 172.30.13.30
+
+set nat destination rule 18 destination address 45.42.144.224/27
+set nat destination rule 18 inbound-interface eth1
+set nat destination rule 18 translation address 172.30.13.36
+
+set nat destination rule 19 destination address 67.161.115.0/27
+set nat destination rule 19 inbound-interface eth1
+set nat destination rule 19 translation address 172.30.13.19
+
+set nat destination rule 20 destination address 67.161.115.32/27
+set nat destination rule 20 inbound-interface eth1
+set nat destination rule 20 translation address 172.30.13.25
+
+set nat destination rule 21 destination address 67.161.115.64/27
+set nat destination rule 21 inbound-interface eth1
+set nat destination rule 21 translation address 172.30.13.31
+
+set nat destination rule 22 destination address 67.161.115.96/27
+set nat destination rule 22 inbound-interface eth1
+set nat destination rule 22 translation address 172.30.13.37
+
+set nat destination rule 23 destination address 67.161.115.128/27
+set nat destination rule 23 inbound-interface eth1
+set nat destination rule 23 translation address 172.30.13.19
+
+set nat destination rule 24 destination address 67.161.115.160/27
+set nat destination rule 24 inbound-interface eth1
+set nat destination rule 24 translation address 172.30.13.25
+
+set nat destination rule 25 destination address 67.161.115.192/27
+set nat destination rule 25 inbound-interface eth1
+set nat destination rule 25 translation address 172.30.13.31
+
+set nat destination rule 26 destination address 67.161.115.224/27
+set nat destination rule 26 inbound-interface eth1
+set nat destination rule 26 translation address 172.30.13.37
